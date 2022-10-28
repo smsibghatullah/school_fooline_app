@@ -18,11 +18,12 @@ class Command(BaseCommand):
         password = 'admin'
         common = xmlrpc.client.ServerProxy('{}xmlrpc/2/common'.format(url))
         uid = common.authenticate(db, username, password, {})
-        print(uid)
         models = xmlrpc.client.ServerProxy('{}xmlrpc/2/object'.format(url))
         fee_vouchers = models.execute_kw(db, uid, password,
                   'student.payslip', 'search_read',
                   [[['id', '!=', 0]]])
+        if len(fee_vouchers) != 0:
+            Voucher.objects.all().delete()
         # print(json.dumps(fee_vouchers[0], sort_keys=True, indent=4))
         for item in fee_vouchers:
             # print(json.dumps( item['state'] , sort_keys=True, indent=4))
