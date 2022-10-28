@@ -45,10 +45,7 @@ class Command(BaseCommand):
             voucher.voucher_status = item['state']
             voucher.save()
         
-        # data = serializers.serialize('json',Voucher.objects.all())
-        # print(json.dumps(data, sort_keys=True, indent=4))    
-
-
+        
         # ==========================================
         time = timezone.now().strftime('%X')
         self.stdout.write("Command Ended At %s" % time)
