@@ -12,7 +12,7 @@ class Command(BaseCommand):
         time = timezone.now().strftime('%X')
         self.stdout.write("Command Started At %s" % time)
         # ==========================================
-        url = 'http://192.168.1.101:8070/'
+        url = 'http://192.168.1.103:8070/'
         db = 'school_demo'
         username = 'admin'
         password = 'admin'
@@ -21,7 +21,7 @@ class Command(BaseCommand):
         models = xmlrpc.client.ServerProxy('{}xmlrpc/2/object'.format(url))
         fee_vouchers = models.execute_kw(db, uid, password,
                   'student.payslip', 'search_read',
-                  [[['id', '!=', 0]]])
+                  [[['id', '!=', 0], ['state', '=', 'confirm']]])
         if len(fee_vouchers) != 0:
             Voucher.objects.all().delete()
         # print(json.dumps(fee_vouchers[0], sort_keys=True, indent=4))
