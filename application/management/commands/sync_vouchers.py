@@ -23,12 +23,10 @@ class Command(BaseCommand):
                   'student.payslip', 'search_read',
                   [[['id', '!=', 0], ['state', '=', 'confirm']]])
         if len(fee_vouchers) != 0:
-            Voucher.objects.all().delete()
+            Voucher.objects.filter(received_amount=None).delete()
         # print(json.dumps(fee_vouchers[0], sort_keys=True, indent=4))
         for item in fee_vouchers:
-            # print(json.dumps( item['state'] , sort_keys=True, indent=4))
-            # break
-
+            
             voucher = Voucher()
             voucher.voucher_id = item['id']
             voucher.paid_amount = item['paid_amount']

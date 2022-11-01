@@ -1,6 +1,8 @@
 from django.http import HttpResponse
 from django.template import loader
 from django.views.generic import TemplateView # Import TemplateView
+from .models import Voucher
+from django.http import JsonResponse
 
 
 def index(request):
@@ -19,8 +21,13 @@ def charts(request):
     return HttpResponse(template.render(context, request))
 
 def vouchers(request):
+    vouchers_list = Voucher.objects.order_by('id')
     template = loader.get_template('vouchers.html')
     context = {
-        # 'latest_question_list': latest_question_list,
+        'vouchers_list': vouchers_list,
     }
     return HttpResponse(template.render(context, request))
+
+def receivepayment(request):
+    # voucher = Voucher.objects.get(id=1)
+    return JsonResponse({'foo':'bar'})
