@@ -153,44 +153,36 @@
                         console.log(voucherid);
                         $('#receive_amount').modal('show');
                     });
-                    /* Attach a submit handler to the form */
-                $("#form_voucher_payment_receive").submit(function(event) {
-                    console.log("Hello Khan")
-                    var ajaxRequest;
 
-                    /* Stop form from submitting normally */
-                    event.preventDefault();
+                  
+               
+                });
+                function submit_payment_form(){
+                            let received_amount = $( "input[name=received_amount]" ).val();
+                            let voucher_id = $( "input[name=voucher_id]" ).val();
+                            console.log(received_amount, voucher_id);
+                            ajaxRequest= $.ajax({
+                                    url: "postvoucher",
+                                    headers: {'X-CSRFToken': csrftoken},
+                                    type: "post",
+                                    data: {voucher_id, received_amount}
+                                });
 
-                     /* Get from elements values */
-                    var values = $(this).serialize();
-                    console.log("==>",values);
-                    /* Send the data using post and put the results in a div. */
-                    /* I am not aborting the previous request, because it's an
-                    asynchronous request, meaning once it's sent it's out
-                    there. But in case you want to abort it you can do it
-                    by abort(). jQuery Ajax methods return an XMLHttpRequest
-                    object, so you can just use abort(). */
-                    // ajaxRequest= $.ajax({
-                    //         url: "test.php",
-                    //         type: "post",
-                    //         data: values
-                    //     });
+                            /*  Request can be aborted by ajaxRequest.abort() */
 
-                    /*  Request can be aborted by ajaxRequest.abort() */
+                            ajaxRequest.done(function (response, textStatus, jqXHR){
 
-                    // ajaxRequest.done(function (response, textStatus, jqXHR){
+                                // Show successfully for submit message
+                                $("#result").html('Submitted successfully');
+                            });
 
-                    //     // Show successfully for submit message
-                    //     $("#result").html('Submitted successfully');
-                    // });
+                            /* On failure of request this function will be called  */
+                            ajaxRequest.fail(function (){
 
-                    /* On failure of request this function will be called  */
-                    // ajaxRequest.fail(function (){
-
-                    //     // Show error
-                    //     $("#result").html('There is error while submit');
-                    });
-                })
+                                // Show error
+                                $("#result").html('There is error while submit');
+                            });
+                    }
              
       </script>
        

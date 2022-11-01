@@ -28,6 +28,6 @@ def vouchers(request):
     }
     return HttpResponse(template.render(context, request))
 
-def receivepayment(request):
+def postvoucher(request):
     # voucher = Voucher.objects.get(id=1)
     return JsonResponse({'foo':'bar'})

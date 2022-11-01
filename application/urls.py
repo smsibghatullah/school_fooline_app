@@ -7,6 +7,7 @@ urlpatterns = [
     path('', views.index, name='index'),
     path('charts', views.charts, name='charts'),
     path('vouchers', views.vouchers, name='vouchers'),
+    path('postvoucher', views.postvoucher, name='postvoucher'),
     # ex: /polls/5/
     # path('<int:question_id>/', views.detail, name='detail'),
     # # ex: /polls/5/results/
