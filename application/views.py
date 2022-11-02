@@ -3,7 +3,7 @@ from django.template import loader
 from django.views.generic import TemplateView # Import TemplateView
 from .models import Voucher
 from django.http import JsonResponse
-
+from datetime import datetime
 
 def index(request):
     # latest_question_list = Question.objects.order_by('-pub_date')[:5]
@@ -29,5 +29,6 @@ def vouchers(request):
     return HttpResponse(template.render(context, request))
 
 def postvoucher(request):
+    voucher = Voucher.objects.filter(voucher_id=request.POST['voucher_id']).update(received_amount=request.POST['received_amount'], offline_status='received waiting for sync', received_date=datetime.date(datetime.now()))
     # voucher = Voucher.objects.get(id=1)
-    return JsonResponse({'foo':'bar'})
+    return JsonResponse({'received_amount':request.POST['received_amount'], 'voucher_id': request.POST['voucher_id']})

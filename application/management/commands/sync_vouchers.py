@@ -10,15 +10,27 @@ class Command(BaseCommand):
 
     def handle(self, *args, **kwargs):
         time = timezone.now().strftime('%X')
+        Voucher.objects.all().delete()
+        
         self.stdout.write("Command Started At %s" % time)
         # ==========================================
         url = 'http://192.168.1.103:8070/'
-        db = 'school_demo'
+        db = 'Al-HamdSchool'
         username = 'admin'
         password = 'admin'
         common = xmlrpc.client.ServerProxy('{}xmlrpc/2/common'.format(url))
         uid = common.authenticate(db, username, password, {})
         models = xmlrpc.client.ServerProxy('{}xmlrpc/2/object'.format(url))
+        # ===================================================
+        # unposted_vouchers = Voucher.objects.filter(offline_status='received waiting for sync')
+        # print(len(unposted_vouchers))
+        # for i in unposted_vouchers:
+        #     student_payslip_id, date, memo, amount_paid, journal_id = i.voucher_id,i.received_date,i.received_date,i.received_amount,6
+        #     data = {'student_payslip_id':student_payslip_id, 'date':date, 'momo':'7676767', 'memo':'7676767','amount_paid':amount_paid,'journal_id':journal_id, 'amount_due':i.due_amount} 
+        #     print(data)
+        #     paid_fee = models.execute_kw(db, uid, password,'payment.fee.wizard', 'pay_api',[[],data])
+        #     print(paid_fee)
+        # ===================================================
         fee_vouchers = models.execute_kw(db, uid, password,
                   'student.payslip', 'search_read',
                   [[['id', '!=', 0], ['state', '=', 'confirm']]])
@@ -41,9 +53,12 @@ class Command(BaseCommand):
             voucher.division_id = item['division_id'][0]
             voucher.division_name = item['division_id'][1]
             voucher.voucher_status = item['state']
+            voucher.journal_id = item['journal_id'][0]
             voucher.save()
         
         
         # ==========================================
         time = timezone.now().strftime('%X')
         self.stdout.write("Command Ended At %s" % time)
+
+ 

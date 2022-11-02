@@ -69,13 +69,18 @@
                                             <td>{{voucher.voucher_date}}</td>
                                             <td>{{voucher.division_name}}</td>
                                             <td>{{voucher.voucher_status}}</td>
-                                            <td>{{voucher.paid_amount}}</td>
+                                            <td>{{voucher.received_amount}}</td>
                                             <td>{{voucher.due_amount}}</td>
                                             <td>{{voucher.total}}</td>  
                                             <td>
+                                                {% if voucher.received_amount %}
+                                               
+                                                {% else %}
                                                 <button data-voucherid="{{voucher.voucher_id}}" type="button" class="btn btn-primary receive_payment">
                                                     Receive Amount
                                                 </button>
+                                                {% endif %}
+
                                             </td>    
                                             <td>{{voucher.offline_status}}</td>                                    
                                         </tr>
@@ -171,16 +176,25 @@
                             /*  Request can be aborted by ajaxRequest.abort() */
 
                             ajaxRequest.done(function (response, textStatus, jqXHR){
-
-                                // Show successfully for submit message
-                                $("#result").html('Submitted successfully');
+                               
+                                Swal.fire(
+                                            'Payment Receiced',
+                                            '',
+                                            'success'
+                                            )
+                                
+                                setTimeout(function() {location.reload()}, 2000)
                             });
 
                             /* On failure of request this function will be called  */
                             ajaxRequest.fail(function (){
-
-                                // Show error
-                                $("#result").html('There is error while submit');
+                                Swal.fire({
+                                    icon: 'error',
+                                    title: 'Oops...',
+                                    text: 'Something went wrong!',
+                                    footer: '<a href="">Why do I have this issue?</a>'
+                                    })
+                                    setTimeout(function() {location.reload()}, 2000)
                             });
                     }
              

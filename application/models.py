@@ -35,6 +35,8 @@ class Voucher(models.Model):
    division_id = models.CharField(max_length=200, null=True, blank=True)
    division_name = models.CharField(max_length=200, null=True, blank=True)
    voucher_status = models.CharField(max_length=200, null=True, blank=True)
+   journal_id = models.CharField(max_length=200, null=True, blank=True)
+   received_date = models.CharField(max_length=200, null=True, blank=True)
    received_amount = models.CharField(max_length=200, null=True, blank=True)
    offline_status = models.CharField(max_length=200, null=True, blank=True) # unposted, posted, error
 
