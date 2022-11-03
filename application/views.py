@@ -30,7 +30,9 @@ def vouchers(request):
     return HttpResponse(template.render(context, request))
 
 def postvoucher(request):
-    voucher = Voucher.objects.filter(voucher_id=request.POST['voucher_id']).update(received_amount=request.POST['received_amount'], offline_status='received waiting for sync', received_date=datetime.date(datetime.now()))
+    date = datetime.date(datetime.now())
+    current_date = date.strftime("%Y-%m-%d")
+    voucher = Voucher.objects.filter(voucher_id=request.POST['voucher_id']).update(received_amount=request.POST['received_amount'], offline_status='received waiting for sync', received_date=current_date)
     # voucher = Voucher.objects.get(id=1)
     return JsonResponse({'received_amount':request.POST['received_amount'], 'voucher_id': request.POST['voucher_id']})
 
