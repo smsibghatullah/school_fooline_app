@@ -9,10 +9,11 @@ class Command(BaseCommand):
         time = timezone.now().strftime('%X')
         self.stdout.write("It's now %s" % time)
         conn = None
-        zk = ZK('192.168.1.100', port=4370, timeout=5)
+        zk = ZK('192.168.1.105', port=4370, timeout=5)
         try:
             print('Connecting to device..........................')
             conn = zk.connect()
+           
             print('Are you sure want to delete all data? [Y/N]: ')
 
             choices = input()
