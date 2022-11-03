@@ -51,13 +51,13 @@ class Fee(models.Model):
     PostStatus = models.CharField(max_length=200)
 
 class Admission(models.Model):
-    StudentName = models.CharField(max_length=200)
-    StudentClass = models.CharField(max_length=200)
-    AdmissionFee = models.IntegerField()
-    PaidAmount = models.IntegerField()
-    BalanceAmount = models.IntegerField()
-    DocRefCode = models.CharField(max_length=200)
-    Status = models.CharField(max_length=200)
+    student_name = models.CharField(max_length=200)
+    student_class = models.CharField(max_length=200)
+    admission_fee = models.IntegerField()
+    paid_amount = models.IntegerField()
+    balance_amount = models.IntegerField()
+    document_referance = models.CharField(max_length=200)
+    status = models.CharField(max_length=200)
 
 
 

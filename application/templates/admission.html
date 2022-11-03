@@ -1,0 +1,234 @@
+
+{% extends 'base.html' %}
+
+{% block content %}
+
+{% load static %} 
+    <!-- Page Wrapper -->
+    <div id="wrapper">
+
+        <!-- Sidebar -->
+        {% include 'partials/_sidebar.html' %}
+        <!-- End of Sidebar -->
+
+        <!-- Content Wrapper -->
+        <div id="content-wrapper" class="d-flex flex-column">
+
+            <!-- Main Content -->
+            <div id="content">
+
+                <!-- Topbar -->
+                {% include 'partials/_headernav.html' %}
+                <!-- End of Topbar -->
+
+                <!-- Begin Page Content -->
+                <div class="container-fluid">
+
+                    <!-- Page Heading -->
+                    <h1 class="h3 mb-2 text-gray-800">Admission</h1>
+                    <button class="btn btn-secondary" type="button" id="create_admission">Create Admission</button>
+
+                    <!-- DataTales Example -->
+                    <div class="card shadow mb-4">
+                        <div class="card-header py-3">
+                            <h6 class="m-0 font-weight-bold text-primary"></h6>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                    <thead>
+                                        <tr>
+                                            <th>Name</th>
+                                            <th>Class</th>
+                                            <th>Admission Fee</th>
+                                            <th>Paid Amount</th>
+                                            <th>Balance Amount</th>
+                                            <th>Document Ref</th>
+                                            <th>Status</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tfoot>
+                                        <tr>
+                                            <th>Name</th>
+                                            <th>Class</th>
+                                            <th>Admission Fee</th>
+                                            <th>Paid Amount</th>
+                                            <th>Balance Amount</th>
+                                            <th>Document Ref</th>
+                                            <th>Status</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </tfoot>
+                                    <tbody>
+                                        {% for voucher in list %}
+                                        <tr>
+                                            <td>{{voucher.student_name}}</td>
+                                            <td>{{voucher.student_class}}</td>
+                                            <td>{{voucher.admission_fee}}</td>
+                                            <td>{{voucher.paid_amount}}</td>
+                                            <td>{{voucher.balance_amount}}</td>
+                                            <td>{{voucher.document_referance}}</td>
+                                            <td>{{voucher.status}}</td>  
+                                            <td>
+                                                <button data-id="{{voucher.id}}" class="btn btn-danger remove"  type="button">Remove</button>
+                                            </td>
+                                            
+                                        </tr>
+                                        {% endfor %}
+                                       
+                                      
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <!-- /.container-fluid -->
+
+            </div>
+            <!-- End of Main Content -->
+
+            <!-- Footer -->
+            <footer class="sticky-footer bg-white">
+                <div class="container my-auto">
+                    <div class="copyright text-center my-auto">
+                        <span>Copyright &copy; Your Website 2020</span>
+                    </div>
+                </div>
+            </footer>
+            <!-- End of Footer -->
+
+        </div>
+        <!-- End of Content Wrapper -->
+
+    </div>
+    <!-- End of Page Wrapper -->
+
+    <!-- Scroll to Top Button-->
+    <a class="scroll-to-top rounded" href="#page-top">
+        <i class="fas fa-angle-up"></i>
+    </a>
+
+    <!-- Logout Modal-->
+    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                    <a class="btn btn-primary" href="login.html">Logout</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+  
+    {% include 'partials/_admission_form.html' %}
+    <!-- <script src="js/demo/datatables-demo.js"></script> -->
+      <!-- Page level plugins -->
+      <!-- <script src="vendor/datatables/jquery.dataTables.min.js"></script>
+      <script src="vendor/datatables/dataTables.bootstrap4.min.js"></script>
+   -->
+      <!-- Page level custom scripts -->
+      <!-- <script src="js/demo/datatables-demo.js"></script> -->
+      <script>
+
+                window.addEventListener('load', function () {
+                    $('#create_admission').on('click', function(){
+                        let voucherid = $(this).attr('data-voucherid');
+                        $('#voucherid').val(voucherid);
+                        console.log(voucherid);
+                        $('#admission_form').modal('show');
+                    });
+
+                    $('.remove').on('click', function(){
+                        let id = $(this).attr('data-id');                      
+                        console.log(id);
+
+                        ajaxRequest= $.ajax({
+                                    url: "admission?id="+id,
+                                    headers: {'X-CSRFToken': csrftoken},
+                                    type: "delete",
+                                    data: {id}
+                                });
+
+                            /*  Request can be aborted by ajaxRequest.abort() */
+
+                            ajaxRequest.done(function (response, textStatus, jqXHR){
+                               
+                                Swal.fire('Admission Deleted Successfully', '', 'success' )
+                                
+                                setTimeout(function() {location.reload()}, 2000)
+                            });
+
+                            /* On failure of request this function will be called  */
+                            ajaxRequest.fail(function (){
+                                Swal.fire({
+                                    icon: 'error',
+                                    title: 'Oops...',
+                                    text: 'Something went wrong!',
+                                    footer: '<a href="">Why do I have this issue?</a>'
+                                    })
+                            });
+
+                    });
+
+                  
+               
+                });
+                function create_admission(){
+                            let student_name = $( "input[name=student_name]" ).val();
+                            let student_class = $( "input[name=student_class]" ).val();
+                            let admission_fee = $( "input[name=admission_fee]" ).val();
+                            let paid_amount = $( "input[name=paid_amount]" ).val();
+                            let balance_amount = $( "input[name=balance_amount]" ).val();
+                            let document_referance = $( "input[name=document_referance]" ).val();
+                            console.log({student_name, student_class, admission_fee, paid_amount, balance_amount, document_referance});
+                            if(!student_name && !student_class && !admission_fee  && !paid_amount && !balance_amount && !document_referance){
+                                Swal.fire({ icon: 'error',  text: 'All fields are required' });
+                                    return false;
+                            }
+                           
+                                                     
+                           
+                            ajaxRequest= $.ajax({
+                                    url: "admission",
+                                    headers: {'X-CSRFToken': csrftoken},
+                                    type: "post",
+                                    data: {student_name, student_class, admission_fee, paid_amount, balance_amount, document_referance}
+                                });
+
+                            /*  Request can be aborted by ajaxRequest.abort() */
+
+                            ajaxRequest.done(function (response, textStatus, jqXHR){
+                               
+                                Swal.fire('Admission Created Successfully', '', 'success' )
+                                
+                                setTimeout(function() {location.reload()}, 2000)
+                            });
+
+                            /* On failure of request this function will be called  */
+                            ajaxRequest.fail(function (){
+                                Swal.fire({
+                                    icon: 'error',
+                                    title: 'Oops...',
+                                    text: 'Something went wrong!',
+                                    footer: '<a href="">Why do I have this issue?</a>'
+                                    })
+                            });
+                    }
+             
+      </script>
+       
+
+    {% endblock %}
+   

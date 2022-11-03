@@ -1,0 +1,57 @@
+    <div class="modal fade" id="admission_form" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"   aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Admission</h5>
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body" >
+                    <form  id="form"></form>
+
+                        <div class="form-group">
+                            <label for="student_name">Student Name</label>
+                            <input name="student_name" id="student_name" type="text" class="form-control"  placeholder="Student Name">
+                            <small style="display:none ;" class="form-text text-danger "> is required field</small>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="student_class">Student Class</label>
+                            <input name="student_class" id="student_class" type="text" class="form-control"  placeholder="Student Class">
+                            <small style="display:none ;" class="form-text text-danger "> is required field</small>
+                        </div>
+
+                       <div class="form-group">
+                            <label for="admission_fee">Student Fee</label>
+                            <input name="admission_fee" id="admission_fee" type="number" class="form-control"  placeholder="Student Fee">
+                            <small style="display:none ;" class="form-text text-danger "> is required field</small>
+                       </div>
+
+                       <div class="form-group">
+                            <label for="paid_amount">Paid Amount</label>
+                            <input name="paid_amount" id="paid_amount" type="number" class="form-control"  placeholder="Paid Amount">
+                            <small style="display:none ;" class="form-text text-danger "> is required field</small>
+                       </div>
+
+                       <div class="form-group">
+                            <label for="balance_amount">Balance Amount</label>
+                            <input name="balance_amount" id="balance_amount" type="number" class="form-control"  placeholder="Balance Amount">
+                            <small style="display:none ;" class="form-text text-danger "> is required field</small>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="document_referance">Document Referance</label>
+                            <input name="document_referance" id="document_referance" type="text" class="form-control"  placeholder="Document Referance">
+                            <small style="display:none ;" class="form-text text-danger "> is required field</small>
+                        </div>
+                    
+                    <div class="modal-footer">
+                        <button onclick="create_admission()" class="btn btn-primary">Submit</button>
+                    </div>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </div>
