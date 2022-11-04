@@ -1,9 +1,10 @@
 from django.http import HttpResponse
 from django.template import loader
 from django.views.generic import TemplateView # Import TemplateView
-from .models import Voucher, Admission
+from .models import Voucher, Admission, Student
 from django.http import JsonResponse
 from datetime import datetime
+from django.core.management import call_command
 import json
 
 def index(request):
@@ -56,3 +57,21 @@ def admission(request):
            data = Admission.objects.filter(id=id).delete()
 
            return JsonResponse({}, status=200)
+
+def student(request):
+    vouchers_list = Student.objects.order_by('id')
+    template = loader.get_template('student.html')
+    context = {
+        'vouchers_list': vouchers_list,
+    }
+    return HttpResponse(template.render(context, request))
+
+def fetch_students(request):
+     call_command('sync_students')
+     return JsonResponse({}, status=200)
+def clear_device(request):
+     call_command('device_clear')
+     return JsonResponse({}, status=200)
+def post_to_device_students(request):
+     call_command('syncusers_to_device')
+     return JsonResponse({}, status=200)

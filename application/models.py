@@ -17,9 +17,9 @@ class Student(models.Model):
     state = models.CharField(max_length=200, null=True, blank=True)
 
 class Attendance(models.Model):
-    StudentId = models.CharField(max_length=200)
-    AttendanceDate = models.CharField(max_length=200)
-    SmsStatus = models.CharField(max_length=200)
+    student_id = models.CharField(max_length=200)
+    attendance_date = models.CharField(max_length=200)
+    sms_status = models.CharField(max_length=200)
 
 class Voucher(models.Model):
    voucher_id = models.CharField(max_length=200, null=True, blank=True)

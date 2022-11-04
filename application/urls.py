@@ -9,6 +9,10 @@ urlpatterns = [
     path('vouchers', views.vouchers, name='vouchers'),
     path('postvoucher', views.postvoucher, name='postvoucher'),
     path('admission', views.admission, name='admission'),
+    path('student', views.student, name='student'),
+    path('fetch_students', views.fetch_students, name='fetch_students'),
+    path('clear_device', views.clear_device, name='clear_device'),
+    path('post_to_device_students', views.post_to_device_students, name='post_to_device_students'),
     # ex: /polls/5/
     # path('<int:question_id>/', views.detail, name='detail'),
     # # ex: /polls/5/results/

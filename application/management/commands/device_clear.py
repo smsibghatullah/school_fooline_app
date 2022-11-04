@@ -9,22 +9,20 @@ class Command(BaseCommand):
         time = timezone.now().strftime('%X')
         self.stdout.write("It's now %s" % time)
         conn = None
-        zk = ZK('192.168.1.105', port=4370, timeout=5)
+        zk = ZK('192.168.1.108', port=4370, timeout=5)
         try:
             print('Connecting to device..........................')
             conn = zk.connect()
-           
-            print('Are you sure want to delete all data? [Y/N]: ')
-
-            choices = input()
-            if choices == 'Y':
-                print ("Clear all data...")
-                conn.clear_data()
-            else:
-                print ("Clear all data canceled !")
+            conn.disable_device()
+            
+            users = conn.get_users()
+            for user in users:
+                conn.delete_user(uid=user.uid)
           
+            conn.enable_device()          
         except(Exception):
             print("Process terminate : ")
+            conn.enable_device()
         finally:
             if conn:
                 conn.disconnect()

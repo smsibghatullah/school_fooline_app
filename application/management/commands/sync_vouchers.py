@@ -26,7 +26,7 @@ class Command(BaseCommand):
         for i in unposted_vouchers:
             student_payslip_id, date, amount_paid, journal_id = i.voucher_id,i.received_date,i.received_amount,i.journal_id
             due_amount = int(i.total) - int(amount_paid)
-            data = {'student_payslip_id':int(student_payslip_id), 'date':date, 'memo':'7676767','amount_paid':int(amount_paid),'journal_id':int(journal_id), 'amount_due':int(due_amount)} 
+            data = {'student_payslip_id':int(student_payslip_id), 'date':date, 'memo':'7676767','amount_paid':int(amount_paid),'journal_id':int(journal_id), 'amount_due':int(i.total)} 
             print(data)
             paid_fee = models.execute_kw(db, uid, password,'payment.fee.wizard', 'pay_api',[[],data])
             Voucher.objects.filter(voucher_id=student_payslip_id).update(offline_status=str(paid_fee))
@@ -38,12 +38,12 @@ class Command(BaseCommand):
         # ===================================================
         fee_vouchers = models.execute_kw(db, uid, password,
                   'student.payslip', 'search_read',
-                  [[['id', '!=', 0], ['state', '=', 'confirm']]])
+                  [[['id', '!=', 0], ['state', 'in', ['confirm', 'pending']]]])
         print(len(fee_vouchers))
         if len(fee_vouchers) != 0:
             Voucher.objects.filter(received_amount=None).delete()
             # Voucher.objects.all().delete()
-        # print(json.dumps(fee_vouchers[0], sort_keys=True, indent=4))
+        print(json.dumps(fee_vouchers[0], sort_keys=True, indent=4))
         for item in fee_vouchers:
             
             voucher = Voucher()

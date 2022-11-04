@@ -4,6 +4,7 @@ import xmlrpc.client
 import json
 from application.models import Student
 from django.core import serializers
+from zk import ZK, const
 
 class Command(BaseCommand):
     help = 'Fetch and insert vouchers in db'
@@ -12,8 +13,8 @@ class Command(BaseCommand):
         time = timezone.now().strftime('%X')
         self.stdout.write("Command Started At %s" % time)
         # ==========================================
-        url = 'http://192.168.1.101:8070/'
-        db = 'school_demo'
+        url = 'http://192.168.1.114:8070/'
+        db = 'school_api'
         username = 'admin'
         password = 'admin'
         common = xmlrpc.client.ServerProxy('{}xmlrpc/2/common'.format(url))
@@ -34,9 +35,9 @@ class Command(BaseCommand):
             school_student.standard_id = item['standard_id'][0] if len(item['standard_id']) > 0 else ''
             school_student.standard_name = item['standard_id'][1] if len(item['standard_id']) > 0 else ''
             school_student.partner_id = item['partner_id'][1] if len(item['partner_id']) > 0 else ''
-            school_student.division_id = item['division_id'][0] if len(item['division_id']) > 0 else ''
-            school_student.division_name = item['division_id'][1] if len(item['division_id']) > 0 else ''
-            school_student.parent_name = item['parent_name']
+            # school_student.division_id = item['division_id'][0] if len(item['division_id']) > 0 else ''
+            # school_student.division_name = item['division_id'][1] if len(item['division_id']) > 0 else ''
+            # school_student.parent_name = item['parent_name']
             school_student.student_code = item['student_code']
             school_student.year_id = item['year'][0] if len(item['year']) > 0 else ''
             school_student.year_name = item['year'][1] if len(item['year']) > 0 else ''
