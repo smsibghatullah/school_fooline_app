@@ -20,7 +20,7 @@ class Command(BaseCommand):
         time = timezone.now().strftime('%X')
         self.stdout.write("It's now %s" % time)
         conn = None
-        zk = ZK('192.168.1.108', port=4370, timeout=5)
+        zk = ZK('192.168.1.103', port=4370, timeout=5)
         try:
             students = Student.objects.all()
             conn = zk.connect()

@@ -26,7 +26,7 @@
 
                     <!-- Page Heading -->
                     <h1 class="h3 mb-2 text-gray-800">Vouchers</h1>
-                 
+                    <button id="sync_vouchers">Sync Vouchers</button>
 
                     <!-- DataTales Example -->
                     <div class="card shadow mb-4">
@@ -38,6 +38,7 @@
                                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                                     <thead>
                                         <tr>
+                                            <th>Display</th>
                                             <th>Name</th>
                                             <th>Date</th>
                                             <th>Division</th>
@@ -51,6 +52,7 @@
                                     </thead>
                                     <tfoot>
                                         <tr>
+                                            <th>Display</th>
                                             <th>Name</th>
                                             <th>Date</th>
                                             <th>Division</th>
@@ -65,6 +67,7 @@
                                     <tbody>
                                         {% for voucher in vouchers_list %}
                                         <tr>
+                                            <td>{{voucher.display_name}}</td>
                                             <td>{{voucher.student_name}}</td>
                                             <td>{{voucher.voucher_date}}</td>
                                             <td>{{voucher.division_name}}</td>
@@ -158,11 +161,37 @@
                         console.log(voucherid);
                         $('#receive_amount').modal('show');
                     });
+                    $('#sync_vouchers').on('click', function(){
+
+                        ajaxRequest= $.ajax({
+                                    url: "sync_vouchers",
+                                    headers: {'X-CSRFToken': csrftoken},
+                                    type: "get",
+                                });
+
+                                ajaxRequest.done(function (response, textStatus, jqXHR){
+                               
+                               Swal.fire( '', '',  'success'  )
+                               
+                               setTimeout(function() {location.reload()}, 2000)
+                           });
+
+                           ajaxRequest.fail(function (){
+                                Swal.fire({
+                                    icon: 'error',
+                                    title: 'Oops...',
+                                    text: 'Something went wrong!',
+                                    footer: '<a href="">Why do I have this issue?</a>'
+                                    })
+                                    setTimeout(function() {location.reload()}, 2000)
+                            });
+                    })
 
                   
                
                 });
                 function submit_payment_form(){
+                    
                             let received_amount = $( "input[name=received_amount]" ).val();
                             let voucher_id = $( "input[name=voucher_id]" ).val();
                             console.log(received_amount, voucher_id);
@@ -177,11 +206,7 @@
 
                             ajaxRequest.done(function (response, textStatus, jqXHR){
                                
-                                Swal.fire(
-                                            'Payment Receiced',
-                                            '',
-                                            'success'
-                                            )
+                                Swal.fire( 'Payment Receiced', '',  'success'  )
                                 
                                 setTimeout(function() {location.reload()}, 2000)
                             });

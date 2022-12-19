@@ -33,7 +33,7 @@ def vouchers(request):
 def postvoucher(request):
     date = datetime.date(datetime.now())
     current_date = date.strftime("%Y-%m-%d")
-    voucher = Voucher.objects.filter(voucher_id=request.POST['voucher_id']).update(received_amount=request.POST['received_amount'], offline_status='received waiting for sync', received_date=current_date)
+    voucher = Voucher.objects.filter(voucher_id=request.POST['voucher_id']).exclude(offline_status='paid').update(received_amount=request.POST['received_amount'], offline_status='received waiting for sync', received_date=current_date)
     # voucher = Voucher.objects.get(id=1)
     return JsonResponse({'received_amount':request.POST['received_amount'], 'voucher_id': request.POST['voucher_id']})
 
@@ -74,4 +74,7 @@ def clear_device(request):
      return JsonResponse({}, status=200)
 def post_to_device_students(request):
      call_command('syncusers_to_device')
+     return JsonResponse({}, status=200)
+def sync_vouchers(request):
+     call_command('sync_vouchers')
      return JsonResponse({}, status=200)

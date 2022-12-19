@@ -14,7 +14,7 @@ class Command(BaseCommand):
         self.stdout.write("Command Started At %s" % time)
         # ==========================================
         url = 'http://192.168.1.114:8070/'
-        db = 'school_api'
+        db = 'ALHAMDSCHOOL'
         username = 'admin'
         password = 'admin'
         common = xmlrpc.client.ServerProxy('{}xmlrpc/2/common'.format(url))

@@ -19,7 +19,7 @@ class Command(BaseCommand):
         time = timezone.now().strftime('%X')
         self.stdout.write("It's now %s" % time)
         conn = None
-        zk = ZK('192.168.1.100', port=4370, verbose=True, timeout=60)
+        zk = ZK('192.168.1.103', port=4370, verbose=True, timeout=60)
         try:
                 conn = zk.connect()
                 data = conn.get_attendance()
